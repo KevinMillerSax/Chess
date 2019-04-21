@@ -1,0 +1,33 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    display:flex;
+    align-content: center;
+    justify-content: center
+}
+table{   
+    width: 480px;
+    height: 480px;
+    border-spacing: 0;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+.white-square{
+    width: 60px;
+    height: 60px;
+    background-color: white;
+    background-size:contain;
+    padding: 0;
+    margin: 0;
+    
+}
+.black-square{
+    width: 60px;
+    height: 60px;
+    background-color: rgb(0 109 183);
+    background-size: contain;
+    padding: 0;
+    margin: 0; 
+}
