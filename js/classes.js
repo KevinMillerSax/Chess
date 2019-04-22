@@ -64,8 +64,9 @@ class WhiteKnight{
         currentSpot = this.position; 
         if (parseInt(num)===parseInt(currentSpot -17) || parseInt(num)===parseInt(currentSpot -15) || parseInt(num)===parseInt(currentSpot -10) || parseInt(num)===parseInt(currentSpot -6) || parseInt(num)===parseInt(currentSpot +6) || parseInt(num)===parseInt(currentSpot +10)|| parseInt(num)===parseInt(currentSpot +15) || parseInt(num)===parseInt(currentSpot +17)){
             this.position = parseInt(num);
+            return true;
         }
-        return this.position; 
+        return false; 
     }
 }
 
@@ -94,15 +95,17 @@ class WhiteBishop{
             if (parseInt(num) > parseInt(currentSpot)){
                 if ((parseInt(num) - parseInt(currentSpot)) % 7 === 0 || (parseInt(num) - parseInt(currentSpot)) % 9 === 0){
                     this.position = parseInt(num);
+                    return true;
                 }
             }
             if (parseInt(num) < parseInt(currentSpot)){
                 if ((parseInt(currentSpot) - parseInt(num)) % 7 === 0 || (parseInt(currentSpot) - parseInt(num)) %9 === 0){
                     this.position = parseInt(num);
+                    return true;
                 }
             }
         }
-        return this.position;
+        return false; 
     }
 }
 
@@ -130,18 +133,21 @@ class WhiteRook{
             if ((parseInt(num) - parseInt(currentSpot)) % 8 === 0){
                 this.position = parseInt(num);
                 this.row = targetRow; 
+                return true;
             }
         }
         if (parseInt(num) < parseInt(currentSpot)){
             if((parseInt(currentSpot) - parseInt(num)) % 8 === 0){
                 this.position = parseInt(num);
                 this.row = targetRow;
+                return true;
             }
         }
         if (this.row === targetRow){
             this.position = parseInt(num);
+            return true;
         }
-        return this.position; 
+        return false; 
         
     }
 }
@@ -159,9 +165,10 @@ class WhiteKing{
         for(let i = 0; i < 8; i++){
             if (parseInt(currentSpot) + kingMoves[i] === parseInt(num)){
                 this.position = parseInt(num);
+                return true;
             }
         }  
-        return this.position;
+        return false; 
     }
 }
 
@@ -203,6 +210,7 @@ class WhiteQueen{
                 if (targetSquareColor === this.sqColor){
                     this.position = parseInt(num);
                     this.row = targetRow;
+                    return true;
                 }
             }
         }
@@ -211,6 +219,7 @@ class WhiteQueen{
                 if (targetSquareColor === this.sqColor){
                     this.position = parseInt(num);
                     this.row = targetRow;
+                    return true;
                 }
             }
         }
@@ -219,6 +228,7 @@ class WhiteQueen{
                 this.position = parseInt(num);
                 this.row = targetRow; 
                 this.sqColor = targetSquareColor;
+                return true;
             }
         }
         if (parseInt(num) < parseInt(currentSpot)){
@@ -226,13 +236,15 @@ class WhiteQueen{
                 this.position = parseInt(num);
                 this.row = targetRow;
                 this.sqColor = targetSquareColor;
+                return true;
             }
         }
         if (this.row === targetRow){
             this.position = parseInt(num);
             this.sqColor = targetSquareColor;
+            return true;
         }
-        return this.position;   
+        return false;   
     }
 }
 

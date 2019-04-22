@@ -1,7 +1,7 @@
 /*---- constants -----*/
 
 /*------ app's state (variables) ------ */
-let turn, selectedPiece, currentSpot; 
+let turn, selectedPiece, currentSpot, borderEl; 
 
 
 
@@ -39,6 +39,7 @@ function clickAction(evt){
 function selectPiece(evt){
     
     let num = evt.target.id.slice(3);
+    borderEl = evt.target.style;
     let piece = BOARD_OBJ.pieces.find(function(piece){
         return piece.position === parseInt(num);    
     });
@@ -46,11 +47,13 @@ function selectPiece(evt){
     //if it's white's turn, he can select his piece to move
     if (turn === true && piece.color === 'w'){
        selectedPiece = piece; 
+       borderEl.border = '4px solid green';
         
     } 
     //if it's black's turn, he can select his piece to move
     if (turn === false && piece.color === 'b'){
-        selectedPiece = piece;   
+        selectedPiece = piece; 
+        borderEl.border = '4px solid green';  
     } 
     // .position is returning a number at this time.     
 }
@@ -62,16 +65,18 @@ function movePiece(evt){
     let targetSquareColor = evt.path[0].className;
     if (parseInt(selectedPiece.position) === parseInt(num)) {
         selectedPiece = null;
+        
     }
     else {
         let success = selectedPiece.move(num, targetRow, targetSquareColor);
-    if (success) {
-        turn = !turn;
-        selectedPiece = null;
-        placePieces();
+        if (success) {
+            turn = !turn;
+            selectedPiece = null;
+            
+            placePieces();
+        }
     }
-    }
-
+    borderEl.border = null;
     
     
     //clear selectedPiece
