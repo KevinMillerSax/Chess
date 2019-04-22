@@ -15,9 +15,9 @@ const BOARD_OBJ = {
         // place white knights
         this.pieces.push(new WhiteKnight(57), new WhiteKnight(62));
         //place black bishops
-        this.pieces.push(new BlackBishop(2), new BlackBishop(5));
+        this.pieces.push(new BlackBishop(2, 'white-square'), new BlackBishop(5, 'black-square'));
         //place white bishops
-        this.pieces.push(new WhiteBishop(58), new WhiteBishop(61));
+        this.pieces.push(new WhiteBishop(58, 'black-square'), new WhiteBishop(61, 'white-square'));
         //place black rooks
         this.pieces.push(new BlackRook(0), new BlackRook(7));
         //place white rooks

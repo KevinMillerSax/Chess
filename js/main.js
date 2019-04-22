@@ -1,7 +1,7 @@
 /*---- constants -----*/
 
 /*------ app's state (variables) ------ */
-let turn, selectedPiece; 
+let turn, selectedPiece, currentSpot; 
 
 
 
@@ -37,13 +37,16 @@ function clickAction(evt){
 
 
 function selectPiece(evt){
+    
     let num = evt.target.id.slice(3);
     let piece = BOARD_OBJ.pieces.find(function(piece){
         return piece.position === parseInt(num);    
     });
+    
     //if it's white's turn, he can select his piece to move
     if (turn === true && piece.color === 'w'){
        selectedPiece = piece; 
+        
     } 
     //if it's black's turn, he can select his piece to move
     if (turn === false && piece.color === 'b'){
@@ -54,16 +57,31 @@ function selectPiece(evt){
  
 
 function movePiece(evt){
+    let targetRow = evt.path[1].id;
     let num = evt.target.id.slice(3);
-   //movePiece needs to identify the selected piece and access it's move methods from classes
-    selectedPiece.move(num);
-    //this function should only be allowed to run if selectPiece returns a piece
+    let targetSquareColor = evt.path[0].className;
+    if (parseInt(selectedPiece.position) === parseInt(num)) {
+        selectedPiece = null;
+    }
+    else {
+        let success = selectedPiece.move(num, targetRow, targetSquareColor);
+    if (success) {
+        turn = !turn;
+        selectedPiece = null;
+        placePieces();
+    }
+    }
 
+    
+    
     //clear selectedPiece
-    selectedPiece = null;
-    placePieces();
+
+
     //toggle turn at end of this function, 
-    turn = !turn;
+
+    
+    
+    
 }
 
 function clearBoard(){ //clear board between moves.
