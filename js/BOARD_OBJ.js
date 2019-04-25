@@ -1,5 +1,6 @@
 const BOARD_OBJ = {
     pieces: [],
+    passantPiece: undefined,
 
     initPieces(){
         //place white pawns
