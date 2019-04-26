@@ -8,6 +8,10 @@ let turn, selectedPiece, currentSpot, borderEl, blockPiece, positions = [], whit
 /*------ cached element references ------ */
 const tile = document.querySelectorAll('td');
 const gameBoardEl = document.getElementById('board');
+const whiteButton = document.getElementById('white-button');
+const blackButton = document.getElementById('black-button');
+const whiteKillList = document.getElementById('white-dead-pieces');
+const blackKillList = document.getElementById('black-dead-pieces');
 
 
 /*------ event listeners------- */
@@ -20,6 +24,11 @@ function init(){
     turn = true; 
     BOARD_OBJ.initPieces();
     placePieces();
+    //keep these here, so the position in array isn't messed up by captures before casteling
+    whiteKingRook = BOARD_OBJ.pieces[27];
+    whiteQueenRook = BOARD_OBJ.pieces[26];
+    blackKingRook = BOARD_OBJ.pieces[25];
+    blackQueenRook = BOARD_OBJ.pieces[24];
     
     //  render();
 }
@@ -72,35 +81,45 @@ function movePiece(evt){
     let num = evt.target.id.slice(3);
     let targetSquareColor = evt.path[0].className;
 
-
-    
-
-
      //---------------------------------------------
      //kill logic
 
-     if (turn){
-        if (blackPositions.includes(parseInt(num))){
-            BOARD_OBJ.pieces.forEach(function(piece){
-                if (piece.color === 'b' && piece.position === parseInt(num)){
-                    piece.alive = 'false';
-                   let  index = BOARD_OBJ.pieces.indexOf(piece);
-                   BOARD_OBJ.pieces.splice(index, 1);
-                }
-            });    
-        }
-    }
-     if (!turn){
-        if (whitePositions.includes(parseInt(num))){
-            BOARD_OBJ.pieces.forEach(function(piece){
-                if (piece.color === 'w' && piece.position === parseInt(num)){
-                    piece.alive = 'false';
-                   let  index = BOARD_OBJ.pieces.indexOf(piece);
-                   BOARD_OBJ.pieces.splice(index, 1);
-                }
-            });    
-        }
-    }
+    //  if (turn){
+    //     if (blackPositions.includes(parseInt(num))){
+    //         BOARD_OBJ.pieces.forEach(function(piece){
+    //             if (piece.color === 'b' && piece.position === parseInt(num)){
+    //                 piece.alive = 'false';
+    //                let  index = BOARD_OBJ.pieces.indexOf(piece);
+    //               splicedPiece=BOARD_OBJ.pieces.splice(index, 1);
+
+
+    //               image=splicedPiece[0].image.slice(4, splicedPiece[0].image.length-1);
+    //               appender = `<img src=${image}>`
+    //              whiteKillList.insertAdjacentHTML('beforeend', appender); 
+    //             }
+    //         });  
+            
+
+            
+    //     }
+    // }
+    //  if (!turn){
+    //     if (whitePositions.includes(parseInt(num))){
+    //         BOARD_OBJ.pieces.forEach(function(piece){
+    //             if (piece.color === 'w' && piece.position === parseInt(num)){
+    //                 piece.alive = 'false';
+    //                let  index = BOARD_OBJ.pieces.indexOf(piece);
+    //                splicedPiece= BOARD_OBJ.pieces.splice(index, 1);
+
+
+    //                image=splicedPiece[0].image.slice(4, splicedPiece[0].image.length-1);
+    //          appender = `<img src=${image}>`
+    //         blackKillList.insertAdjacentHTML('beforeend', appender); 
+    //             }
+    //         });    
+            
+    //     }
+    // }
      //---------------------------------------------    
 
 
@@ -116,6 +135,7 @@ function movePiece(evt){
     else {
         let success = selectedPiece.move(num, targetRow, targetSquareColor);
         if (success) {
+            killPiece(num);
             turn = !turn;
             //----passant check
             passantArr.push(selectedPiece); //every move goes into this array, we'll pop it to find the last move to check for passant
@@ -127,6 +147,12 @@ function movePiece(evt){
             whitePositions = [];
             blackPositions = [];
             borderEl.border = null;
+            if (turn){ 
+                whiteButton.style.backgroundColor = 'red'; blackButton.style.backgroundColor = 'white';
+            }
+            else{
+                 blackButton.style.backgroundColor = 'red'; whiteButton.style.backgroundColor = 'white';
+            }
             
             
         }
@@ -168,5 +194,42 @@ function positionTracker(){ //make it track white and black positions so we can 
     });
 }
 
+function killPiece(num){
+    if (turn){
+        if (blackPositions.includes(parseInt(num))){
+            BOARD_OBJ.pieces.forEach(function(piece){
+                if (piece.color === 'b' && piece.position === parseInt(num)){
+                    piece.alive = 'false';
+                   let  index = BOARD_OBJ.pieces.indexOf(piece);
+                  splicedPiece=BOARD_OBJ.pieces.splice(index, 1);
 
+
+                  image=splicedPiece[0].image.slice(4, splicedPiece[0].image.length-1);
+                  appender = `<img src=${image}>`
+                 whiteKillList.insertAdjacentHTML('beforeend', appender); 
+                }
+            });  
+            
+                
+            
+        }
+    }
+     if (!turn){
+        if (whitePositions.includes(parseInt(num))){
+            BOARD_OBJ.pieces.forEach(function(piece){
+                if (piece.color === 'w' && piece.position === parseInt(num)){
+                    piece.alive = 'false';
+                   let  index = BOARD_OBJ.pieces.indexOf(piece);
+                   splicedPiece= BOARD_OBJ.pieces.splice(index, 1);
+
+
+                   image=splicedPiece[0].image.slice(4, splicedPiece[0].image.length-1);
+             appender = `<img src=${image}>`
+            blackKillList.insertAdjacentHTML('beforeend', appender); 
+                }
+            });    
+            
+        }
+    }
+}
 

@@ -182,7 +182,7 @@ class BlackPawn{
              }
          }
          if(this.moved === true && parseInt(num)=== parseInt(currentSpot + 8)){
-             if (positions.includes(currentSpot-8)){
+             if (positions.includes(currentSpot+8)){
                  blocked = true;
              }
              if (blocked === false){
@@ -201,6 +201,20 @@ class BlackKnight{
         this.image = "url('images/Black-knight.png')";
         this.alive = true; 
         this.color = 'b';
+    }
+    move(num){
+        currentSpot = this.position; 
+          
+        if (blackPositions.includes(parseInt(num))){
+            blocked = true; 
+        } 
+        if (blocked === false){
+            if (parseInt(num)===parseInt(currentSpot -17) || parseInt(num)===parseInt(currentSpot -15) || parseInt(num)===parseInt(currentSpot -10) || parseInt(num)===parseInt(currentSpot -6) || parseInt(num)===parseInt(currentSpot +6) || parseInt(num)===parseInt(currentSpot +10)|| parseInt(num)===parseInt(currentSpot +15) || parseInt(num)===parseInt(currentSpot +17)){
+                this.position = parseInt(num);
+                return true;
+            }
+        }
+        return false; 
     }
 }
 
@@ -234,6 +248,62 @@ class BlackBishop{
         this.alive = true; 
         this.color = 'b';
         this.sqColor = squareColor;
+    }
+    move(num, targetRow, targetSquareColor){
+
+        currentSpot = this.position;
+        if (blackPositions.includes(parseInt(num))){
+            blocked = true; 
+        } 
+
+        if (targetSquareColor === this.sqColor){
+
+            if ((parseInt(currentSpot) - parseInt(num)) % 9 === 0 || (parseInt(num) - parseInt(currentSpot)) % 9 === 0 ){
+
+                if (parseInt(num) > parseInt(currentSpot)){
+                    for (let i = currentSpot+9 ; i < num; i+=9){
+                        if(positions.includes(i)){
+                           blocked = true; 
+                             
+                        }  
+                    }        
+                }
+                if (parseInt(num) < parseInt(currentSpot)){
+                    for (let i = currentSpot-9; i > num; i-=9){
+                        if(positions.includes(i)){
+                            blocked = true;   
+                        }  
+                    } 
+                }                  
+                if (blocked === false){
+                    this.position = parseInt(num);                  
+                    return true;                    
+                }     
+            }
+            if ((parseInt(currentSpot) - parseInt(num)) % 7 === 0 || (parseInt(num) - parseInt(currentSpot)) % 7 === 0 ){
+
+                if (parseInt(num) > parseInt(currentSpot)){
+                    for (let i = currentSpot+7 ; i < num; i+=7){
+                        if(positions.includes(i)){
+                           blocked = true;   
+                        }  
+                    }        
+                }
+                if (parseInt(num) < parseInt(currentSpot)){
+                    for (let i = currentSpot-7; i > num; i-=7){
+                        if(positions.includes(i)){
+                            blocked = true;   
+                        }  
+                    } 
+                }                  
+                if (blocked === false){
+                    this.position = parseInt(num);                   
+                    return true;                    
+                }     
+            }    
+            
+        }
+        return false; 
     }
 }
 
@@ -310,6 +380,62 @@ class BlackRook{
         this.alive = true; 
         this.color = 'b';
         this.row = 'r8';
+        this.moved = false;
+    }
+    move(num, targetRow){
+        currentSpot = this.position;
+
+        if (blackPositions.includes(parseInt(num))){
+            blocked = true; 
+        } 
+        
+        if ((parseInt(currentSpot) - parseInt(num)) % 8 === 0 || (parseInt(num) - parseInt(currentSpot)) % 8 === 0 ){
+
+            if (parseInt(num) > parseInt(currentSpot)){
+                for (let i = currentSpot+8 ; i < num; i+=8){
+                    if(positions.includes(i)){
+                       blocked = true;   
+                    }  
+                }        
+            }
+            if (parseInt(num) < parseInt(currentSpot)){
+                for (let i = currentSpot-8; i > num; i-=8){
+                    if(positions.includes(i)){
+                        blocked = true;   
+                    }  
+                } 
+            }                  
+            if (blocked === false){
+                this.position = parseInt(num);
+                this.row = targetRow; 
+                this.moved = true;                  
+                return true;                    
+            }     
+        }
+
+        if (this.row === targetRow){
+
+            if (parseInt(num)< parseInt(currentSpot)){      
+                for (let i = currentSpot-1; i>num; i--){ 
+                    if(positions.includes(i)){
+                        blocked = true;
+                    } 
+                }
+            }
+            if (parseInt(num)> parseInt(currentSpot)){      
+                for (let i = currentSpot+1; i<num; i++){ 
+                    if(positions.includes(i)){
+                        blocked = true;
+                    } 
+                }
+            }
+            if (blocked === false){
+            this.position = parseInt(num); //no need to update target row here, it wont change
+            this.moved = true;
+            return true;
+            }
+        }  
+        return false; 
     }
 }
 
@@ -324,7 +450,6 @@ class WhiteRook{
     }
     move(num, targetRow){
         currentSpot = this.position;
-
         if (whitePositions.includes(parseInt(num))){
             blocked = true; 
         } 
@@ -405,20 +530,22 @@ class WhiteKing{
             } 
             // castle -------------
         if (parseInt(num)=== parseInt(currentSpot +2)){
-            let whiteKingRook = BOARD_OBJ.pieces[27];
+            
             
             if (positions.includes(parseInt(currentSpot +1))) blocked = true;
             if (this.moved === false && blocked === false && whiteKingRook.moved === false){
-                this.position = parseInt(num);
+                this.position = 62;
                 this.moved = true;
                 whiteKingRook.position = 61;
                 whiteKingRook.moved = true;
+                
+                console.log(BOARD_OBJ.pieces)
                 
                 return true; 
             }
         }
         if (parseInt(num)=== parseInt(currentSpot - 2)){
-            let whiteQueenRook = BOARD_OBJ.pieces[26];
+            
             if (positions.includes(parseInt(currentSpot -1))) blocked = true;
             if (positions.includes(parseInt(currentSpot -3))) blocked = true;
             if (this.moved === false && blocked === false && whiteQueenRook.moved === false){
@@ -429,11 +556,8 @@ class WhiteKing{
                 return true; 
             }
         }
-
-
         // castle -------------
-        }
-        
+        }      
         return false; 
     }
 }
@@ -444,6 +568,53 @@ class BlackKing{
         this.image = "url('images/Black-king.png')";
         this.alive = true; 
         this.color = 'b';
+        this.moved = false;
+    }
+    move(num){
+        currentSpot = this.position; 
+         if (blackPositions.includes(parseInt(num))){
+            blocked = true; 
+        } 
+        
+       
+        if (blocked === false){
+            let kingMoves = [-8, 8, -1, 1, -9, 9, -7, 7];
+            for(let i = 0; i < 8; i++){
+                if (parseInt(currentSpot) + kingMoves[i] === parseInt(num)){
+                    this.position = parseInt(num);
+                    this.moved = true;
+                    return true;
+                }
+            } 
+            // castle -------------
+        if (parseInt(num)=== parseInt(currentSpot +2)){
+            
+            
+            if (positions.includes(parseInt(currentSpot +1))) blocked = true;
+            if (this.moved === false && blocked === false && blackKingRook.moved === false){
+                this.position = parseInt(num);
+                this.moved = true;
+                blackKingRook.position = 5;
+                blackKingRook.moved = true;
+                
+                return true; 
+            }
+        }
+        if (parseInt(num)=== parseInt(currentSpot - 2)){
+            
+            if (positions.includes(parseInt(currentSpot -1))) blocked = true;
+            if (positions.includes(parseInt(currentSpot -3))) blocked = true;
+            if (this.moved === false && blocked === false && blackQueenRook.moved === false){
+                this.position = parseInt(num);
+                this.moved = true;
+                blackQueenRook.position = 3;
+                blackQueenRook.moved = true;
+                return true; 
+            }
+        }
+        // castle -------------
+        }     
+        return false; 
     }
 }
 
@@ -456,9 +627,113 @@ class BlackQueen{
         this.row = 'r8';
         this.sqColor = 'black-square';
     }
+    move(num, targetRow, targetSquareColor){
+        currentSpot = this.position;
+ 
+         if (blackPositions.includes(parseInt(num))){
+             blocked = true; 
+         } 
+         if (targetSquareColor === this.sqColor && this.row !== targetRow){
+ 
+             if ((parseInt(currentSpot) - parseInt(num)) % 9 === 0 || (parseInt(num) - parseInt(currentSpot)) % 9 === 0 ){
+ 
+                 if (parseInt(num) > parseInt(currentSpot)){
+                     for (let i = currentSpot+9 ; i < num; i+=9){
+                         if(positions.includes(i)){
+                            blocked = true; 
+                              
+                         }  
+                     }        
+                 }
+                 if (parseInt(num) < parseInt(currentSpot)){
+                     for (let i = currentSpot-9; i > num; i-=9){
+                         if(positions.includes(i)){
+                             blocked = true;   
+                         }  
+                     } 
+                 }                  
+                 if (blocked === false){
+                     this.position = parseInt(num); 
+                     this.row = targetRow;                 
+                     return true;                    
+                 }     
+             }
+             if ((parseInt(currentSpot) - parseInt(num)) % 7 === 0 || (parseInt(num) - parseInt(currentSpot)) % 7 === 0 ){
+ 
+                 if (parseInt(num) > parseInt(currentSpot)){
+                     for (let i = currentSpot+7 ; i < num; i+=7){
+                         if(positions.includes(i)){
+                            blocked = true;   
+                         }  
+                     }        
+                 }
+                 if (parseInt(num) < parseInt(currentSpot)){
+                     for (let i = currentSpot-7; i > num; i-=7){
+                         if(positions.includes(i)){
+                             blocked = true;   
+                         }  
+                     } 
+                 }                  
+                 if (blocked === false){
+                     this.position = parseInt(num); 
+                     this.row = targetRow;                  
+                     return true;                    
+                 }     
+             }         
+         }
+         if ((parseInt(currentSpot) - parseInt(num)) % 8 === 0 || (parseInt(num) - parseInt(currentSpot)) % 8 === 0 ){
+ 
+             if (parseInt(num) > parseInt(currentSpot)){
+                 for (let i = currentSpot+8 ; i < num; i+=8){
+                     if(positions.includes(i)){
+                        blocked = true;   
+                     }  
+                 }        
+             }
+             if (parseInt(num) < parseInt(currentSpot)){
+                 for (let i = currentSpot-8; i > num; i-=8){
+                     if(positions.includes(i)){
+                         blocked = true;   
+                     }  
+                 } 
+             }                  
+             if (blocked === false){
+                 this.position = parseInt(num);
+                 this.row = targetRow;    
+                 this.sqColor = targetSquareColor;               
+                 return true;                    
+             }     
+         }
+ 
+                  
+         if (this.row === targetRow){
+ 
+             if (parseInt(num)< parseInt(currentSpot)){      
+                 for (let i = currentSpot-1; i>num; i--){ 
+                     if(positions.includes(i)){
+                         blocked = true;
+                     } 
+                 }
+             }
+             if (parseInt(num)> parseInt(currentSpot)){      
+                 for (let i = currentSpot+1; i<num; i++){ 
+                     if(positions.includes(i)){
+                         blocked = true;
+                     } 
+                 }
+             }
+             if (blocked === false){
+             this.position = parseInt(num); //no need to update target row here, it wont change
+             this.sqColor= targetSquareColor;
+             return true;
+             }
+         }  
+         return false; 
+            
+     }
 }
 
-class WhiteQueen{ //needs blocking logic of the bishop
+class WhiteQueen{ 
     constructor (position){
         this.position = position;
         this.image = "url('images/White-queen.png')";
@@ -474,7 +749,7 @@ class WhiteQueen{ //needs blocking logic of the bishop
         if (whitePositions.includes(parseInt(num))){
             blocked = true; 
         } 
-        if (targetSquareColor === this.sqColor){
+        if (targetSquareColor === this.sqColor && this.row !== targetRow){
 
             if ((parseInt(currentSpot) - parseInt(num)) % 9 === 0 || (parseInt(num) - parseInt(currentSpot)) % 9 === 0 ){
 
@@ -520,31 +795,8 @@ class WhiteQueen{ //needs blocking logic of the bishop
                     this.row = targetRow;                  
                     return true;                    
                 }     
-            }    
-            
+            }         
         }
-
-
-
-        // OLD BISHOP CODE
-        // if (parseInt(num) > parseInt(currentSpot)){
-        //     if ((parseInt(num) - parseInt(currentSpot)) % 7 === 0 || (parseInt(num) - parseInt(currentSpot)) % 9 === 0){
-        //         if (targetSquareColor === this.sqColor){
-        //             this.position = parseInt(num);
-        //             this.row = targetRow;
-        //             return true;
-        //         }
-        //     }
-        // }
-        // if (parseInt(num) < parseInt(currentSpot)){
-        //     if ((parseInt(currentSpot) - parseInt(num)) % 7 === 0 || (parseInt(currentSpot) - parseInt(num)) %9 === 0){
-        //         if (targetSquareColor === this.sqColor){
-        //             this.position = parseInt(num);
-        //             this.row = targetRow;
-        //             return true;
-        //         }
-        //     }
-        // }
         if ((parseInt(currentSpot) - parseInt(num)) % 8 === 0 || (parseInt(num) - parseInt(currentSpot)) % 8 === 0 ){
 
             if (parseInt(num) > parseInt(currentSpot)){
@@ -563,7 +815,8 @@ class WhiteQueen{ //needs blocking logic of the bishop
             }                  
             if (blocked === false){
                 this.position = parseInt(num);
-                this.row = targetRow;                   
+                this.row = targetRow;        
+                this.sqColor = targetSquareColor;         
                 return true;                    
             }     
         }
@@ -587,6 +840,7 @@ class WhiteQueen{ //needs blocking logic of the bishop
             }
             if (blocked === false){
             this.position = parseInt(num); //no need to update target row here, it wont change
+            this.sqColor = targetSquareColor;
             return true;
             }
         }  
