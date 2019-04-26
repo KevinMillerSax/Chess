@@ -11,6 +11,55 @@ body{
     justify-content: space-between;
     background-image: url(images/wood.jpg);
 }
+
+/* modal styling */
+#pawn-promote-mod{
+   
+    display:none;
+    position: absolute;
+    z-index: 1;
+    width: 100vw;
+    height:100vh;
+    overflow:auto;
+    background-color: rgba(0,0,0,0.5);
+    top:0;
+    left:0;
+    bottom:0;
+}
+#white-pick{
+    
+    display:flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: beige;
+    width: 40vw;
+    height: 30vh;
+    margin: 25vw 25vw 25vw 30vw;  
+}
+#white-queen-btn{
+    width: 60px;
+    height: 60px;
+    background-image: url(images/White-queen.png);
+}
+#white-rook-btn{
+    width: 60px;
+    height: 60px;
+    background-image: url(images/White-rook.png);
+}
+#white-bishop-btn{
+    width: 60px;
+    height: 60px;
+    background-image: url(images/White-bishop.png);
+}
+#white-knight-btn{
+    width: 60px;
+    height: 60px;
+    background-image: url(images/White-knight.png);
+    
+}
+
+
+/* end modal styling */
 h1{
     text-align: center;
     background-color: beige;
