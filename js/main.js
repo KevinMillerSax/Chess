@@ -1,6 +1,6 @@
 
 /*------ app's state (variables) ------ */
-let turn, selectedPiece, currentSpot, borderEl, blockPiece, positions = [], whitePositions=[], blackPositions =[], blocked, passantArr=[], promoteNum; 
+let turn, selectedPiece, currentSpot, borderEl, blockPiece, positions = [], whitePositions=[], blackPositions =[], blocked, passantArr=[], promoteNum, promoteTileColor; 
 
 /*------ cached element references ------ */
 const tile = document.querySelectorAll('td');
@@ -54,6 +54,7 @@ function selectPiece(evt){
  
 
 function movePiece(evt){
+    console.log(evt.target.className);
     blocked = false;    
     let targetRow = evt.path[1].id;
     let num = evt.target.id.slice(3);
@@ -66,7 +67,7 @@ function movePiece(evt){
     else {
         let success = selectedPiece.move(num, targetRow, targetSquareColor);
         if (success) {
-            checkPromotion(num);
+            checkPromotion(num, evt.target.className);
             killPiece(num);
             turn = !turn;
             //----passant check

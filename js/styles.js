@@ -13,19 +13,26 @@ const selectBlackKnight = document.getElementById('black-knight-btn');
 //-------event-listeners
 
 selectQueen.onclick = function(){
-    BOARD_OBJ.pieces.push(new WhiteQueen(parseInt(promoteNum)));
+    let promoted = new WhiteQueen(parseInt(promoteNum));
+    promoted.row = 'r8';
+    promoted.sqColor = promoteTileColor;
+    BOARD_OBJ.pieces.push(promoted);
     modelView.style.display = "none";
     placePieces();
 }
 
 selectRook.onclick = function(){
-    BOARD_OBJ.pieces.push(new WhiteRook(parseInt(promoteNum)));
+    let promoted = new WhiteRook(parseInt(promoteNum));
+    promoted.row = 'r8';
+    BOARD_OBJ.pieces.push(promoted);
     modelView.style.display = "none";
     placePieces();
 }
 
 selectBishop.onclick = function (){
-    BOARD_OBJ.pieces.push(new WhiteBishop(parseInt(promoteNum)));
+    let promoted = new WhiteBishop(parseInt(promoteNume));
+    promoted.sqColor = promoteTileColor;
+    BOARD_OBJ.pieces.push(promoted);
     modelView.style.display = "none";
     placePieces();
 }
@@ -36,19 +43,26 @@ selectKnight.onclick = function(){
     placePieces();
 }
 selectBlackQueen.onclick = function(){
-    BOARD_OBJ.pieces.push(new BlackQueen(parseInt(promoteNum)));
+    let promoted = new BlackQueen(parseInt(promoteNum));
+    promoted.row = 'r1';
+    promoted.sqColor = promoteTileColor;
+    BOARD_OBJ.pieces.push(promoted);
     bModelView.style.display = "none";
     placePieces();
 }
 
 selectBlackRook.onclick = function(){
-    BOARD_OBJ.pieces.push(new BlackRook(parseInt(promoteNum)));
+    let promoted = new BlackRook(parseInt(promoteNum));
+    promoted.row = 'r1';
+    BOARD_OBJ.pieces.push(promoted);
     bModelView.style.display = "none";
     placePieces();
 }
 
 selectBlackBishop.onclick = function (){
-    BOARD_OBJ.pieces.push(new BlackBishop(parseInt(promoteNum)));
+    let promoted = new BlackBishop(parseInt(promoteNume));
+    promoted.sqColor = promoteTileColor;
+    BOARD_OBJ.pieces.push(promoted);
     bModelView.style.display = "none";
     placePieces();
 }
@@ -61,11 +75,12 @@ selectBlackKnight.onclick = function(){
 
  //---------functionality     
  
- function checkPromotion(num){
+ function checkPromotion(num, tileColor){
      if (selectedPiece.row === 'r8' && selectedPiece.constructor.name === 'WhitePawn'){
          let  index = BOARD_OBJ.pieces.indexOf(selectedPiece);
          BOARD_OBJ.pieces.splice(index, 1);
          promoteNum = num;
+         promoteTileColor = tileColor;
          modelView.style.display = "block";
      }
      if (selectedPiece.row === 'r1' && selectedPiece.constructor.name === 'BlackPawn'){
