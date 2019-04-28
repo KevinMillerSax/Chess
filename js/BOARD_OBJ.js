@@ -30,6 +30,4 @@ const BOARD_OBJ = {
         this.pieces.push(new WhiteQueen(59));
         this.pieces.push(new BlackQueen(3));
     }
-
-
 }
