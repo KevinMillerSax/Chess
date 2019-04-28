@@ -10,7 +10,8 @@ My Chess app allows two players to enjoy this classic board game. Tiles receive 
 - CSS
 - Javascript
 
-
+## Getting Started
+[play](https://kevinmillersax.github.io/Chess/)
 
 ## Next Steps
 - Implement logic for check and checkmate.
